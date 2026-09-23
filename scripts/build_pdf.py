@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Missouri Field Guide — compact PDF builder v3
+"""Missouri Field Guide â compact PDF builder v3
 Layout goals:
   - Multiple items per page (flow-based, no forced PageBreak per item)
   - Smaller fonts, tighter spacing
@@ -13,11 +13,12 @@ from pathlib import Path
 from collections import OrderedDict
 
 SCRATCHPAD = Path('/tmp/claude-0/-home-claude/981a2691-61a1-5999-9ec7-8c63ae7a8726/scratchpad')
+REPO = Path(__file__).parent.parent  # missouri-field-guide/
 
-# ── load rich content ────────────────────────────────────────────────────────
-exec(open(SCRATCHPAD / 'rich_content.py').read())
-exec(open(SCRATCHPAD / 'rich_content_fauna.py').read())
-exec(open(SCRATCHPAD / 'rich_content_trees_tracking.py').read())
+# ââ load rich content ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+exec(open(REPO / 'scripts/rich_content.py').read())
+exec(open(REPO / 'scripts/rich_content_fauna.py').read())
+exec(open(REPO / 'scripts/rich_content_trees_tracking.py').read())
 
 MASTER = {}
 MASTER.update(RICH)
@@ -45,21 +46,21 @@ ALIAS = {
 INLINE_RICH = {
     'True Morel vs. False Morel': {
         'description': (
-            "Missouri's most-prized edible fungus — the true morel (Morchella spp.) — has several dangerous "
+            "Missouri's most-prized edible fungus â the true morel (Morchella spp.) â has several dangerous "
             "look-alikes, chief among them the False Morel (Gyromitra esculenta). A true morel has a hollow "
             "cap and stem continuous from top to bottom; cut it lengthwise and you see a single uninterrupted "
             "air space. The cap is fully attached to the stem at the base with a pitted, honeycomb-like "
-            "surface rather than wrinkled, brain-like folds. True morels fruit March–May in Missouri."
+            "surface rather than wrinkled, brain-like folds. True morels fruit MarchâMay in Missouri."
         ),
         'utility': (
-            "False morels (Gyromitra) contain gyromitrin, which metabolizes to monomethylhydrazine — toxic "
+            "False morels (Gyromitra) contain gyromitrin, which metabolizes to monomethylhydrazine â toxic "
             "even after cooking or drying. Never eat a 'morel' without slicing it top-to-bottom first."
         ),
         'facts': [
             "True morel: hollow top-to-bottom; false morel: cottony/chambered interior",
-            "False morel cap: reddish-brown, wrinkled/brain-like — NOT a honeycomb",
+            "False morel cap: reddish-brown, wrinkled/brain-like â NOT a honeycomb",
             "True morel cap is fully fused to stem; false morel cap may hang free",
-            "Gyromitrin toxin survives cooking — false morels are never safe to eat",
+            "Gyromitrin toxin survives cooking â false morels are never safe to eat",
             "Poison Control: 1-800-222-1222",
         ]
     },
@@ -72,7 +73,7 @@ INLINE_RICH = {
         ),
         'utility': (
             "Wild grapes are edible fresh, as jelly, juice, wine, or dried. Moonseed berries contain "
-            "dauricine alkaloids causing cardiac/neurological toxicity — potentially life-threatening."
+            "dauricine alkaloids causing cardiac/neurological toxicity â potentially life-threatening."
         ),
         'facts': [
             "Moonseed seed is crescent-shaped; grape seed is oval/pear-shaped",
@@ -85,16 +86,16 @@ INLINE_RICH = {
         'description': (
             "Wild onion (Allium canadense) and Death Camas (Anticlea elegans) both emerge in spring with "
             "grass-like leaves from a bulb. The definitive test: crush any part and smell. Wild onion "
-            "always smells like onion — Death Camas has no onion smell whatsoever."
+            "always smells like onion â Death Camas has no onion smell whatsoever."
         ),
         'utility': (
-            "Wild onion is edible — bulb, leaves, and flowers. Death Camas contains zygacine and steroidal "
+            "Wild onion is edible â bulb, leaves, and flowers. Death Camas contains zygacine and steroidal "
             "alkaloids causing cardiovascular and nervous system failure. Never harvest without the smell test."
         ),
         'facts': [
             "Onion smell = safe; NO onion smell = do not eat",
             "Death Camas flowers: creamy white with 6 petals and a V-shaped gland",
-            "Zygacine alkaloids are cardiotoxic — no antidote; treatment is supportive only",
+            "Zygacine alkaloids are cardiotoxic â no antidote; treatment is supportive only",
         ]
     },
     "Chanterelle vs. Jack-o'-Lantern": {
@@ -105,13 +106,13 @@ INLINE_RICH = {
             "Jack-o'-Lanterns have true, knife-blade-thin sharp gills."
         ),
         'utility': (
-            "Chanterelles are prized for fruity, apricot-like aroma — highly valuable. Jack-o'-Lanterns "
+            "Chanterelles are prized for fruity, apricot-like aroma â highly valuable. Jack-o'-Lanterns "
             "grow in clusters at tree bases; chanterelles grow singly on the forest floor. Jack-o'-Lanterns "
-            "glow faintly blue-green in darkness — check them in a dark room."
+            "glow faintly blue-green in darkness â check them in a dark room."
         ),
         'facts': [
             "Chanterelle: blunt forked ridges; Jack-o'-Lantern: sharp true gills",
-            "Jack-o'-Lanterns glow in the dark — diagnostic feature",
+            "Jack-o'-Lanterns glow in the dark â diagnostic feature",
             "Jack-o'-Lantern flesh is orange throughout; chanterelle flesh is solid white inside",
         ]
     },
@@ -119,12 +120,16 @@ INLINE_RICH = {
 
 MASTER.update(INLINE_RICH)
 
-# ── load items and add fish ──────────────────────────────────────────────────
-items = json.load(open(SCRATCHPAD / 'items_full.json'))
+# ââ load items and add fish ââââââââââââââââââââââââââââââââââââââââââââââââââ
+items = json.load(open(REPO / 'data/items_full.json'))
 print(f"Items from JSON: {len(items)}")
 
 # Fish items to extract from Wildlife & Animals and place in Fish section
-FISH_NAMES = {'Channel Catfish', 'Largemouth Bass', 'Crappie', 'Ozark Smallmouth Bass'}
+FISH_NAMES = {
+    'Channel Catfish', 'Largemouth Bass', 'Crappie', 'Ozark Smallmouth Bass',
+    'Bluegill', 'Walleye', 'Flathead Catfish', 'Blue Catfish',
+    'White Bass', 'Paddlefish', 'Rainbow Trout', 'Alligator Gar',
+}
 
 fish_items = []
 non_fish_items = []
@@ -139,7 +144,7 @@ print(f"Fish items: {[i['name'] for i in fish_items]}")
 # Rich content for fish (from RICH_FAUNA which is in MASTER)
 # They should already be in MASTER via RICH_FAUNA
 
-# ── reportlab setup ──────────────────────────────────────────────────────────
+# ââ reportlab setup ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.units import inch
@@ -170,7 +175,7 @@ def section_color(section):
 
 styles = getSampleStyleSheet()
 
-# Compact styles — smaller fonts, tighter leading/spacing
+# Compact styles â smaller fonts, tighter leading/spacing
 style_body = ParagraphStyle('Body',
     parent=styles['Normal'],
     fontSize=8.5, leading=11.5, spaceAfter=4, spaceBefore=0)
@@ -230,14 +235,14 @@ def make_cover():
     story.append(Paragraph("Missouri Field Guide", cover_title))
     story.append(Spacer(1, 0.25*inch))
     story.append(Paragraph(
-        "Edible Plants · Fungi · Wildlife · Fish · Animal Tracking · Trees · Danger Zone",
+        "Edible Plants Â· Fungi Â· Wildlife Â· Fish Â· Animal Tracking Â· Trees Â· Danger Zone",
         cover_sub))
     story.append(Spacer(1, 0.3*inch))
     story.append(HRFlowable(width='60%', thickness=2,
         color=colors.HexColor('#1a3d1a'), hAlign='CENTER'))
     story.append(Spacer(1, 0.3*inch))
     story.append(Paragraph(
-        "A comprehensive field reference for Missouri's outdoors —<br/>"
+        "A comprehensive field reference for Missouri's outdoors â<br/>"
         "identification, ecology, edibility, utility, and safety", cover_note))
     story.append(Spacer(1, 0.4*inch))
     story.append(Paragraph("2024 Edition", cover_note))
@@ -261,7 +266,7 @@ def make_section_divider(section_name, count):
     return story
 
 def make_item_block(item):
-    """Compact item block — no forced PageBreak, wrapped in KeepTogether."""
+    """Compact item block â no forced PageBreak, wrapped in KeepTogether."""
     name = item['name']
     section = item['section']
     key = ALIAS.get(name, name)
@@ -270,7 +275,7 @@ def make_item_block(item):
 
     inner = []
 
-    # ── compact header bar ──
+    # ââ compact header bar ââ
     header_text = (
         f"<font size=7 color='#dddddd'>{section}</font>  "
         f"<font size=13 color='white'><b>{name}</b></font>"
@@ -289,44 +294,65 @@ def make_item_block(item):
     inner.append(hdr_table)
     inner.append(Spacer(1, 0.06*inch))
 
-    # ── image + description ──
-    img_obj = b64_to_image(item.get('img_b64', ''), max_w=1.55*inch, max_h=1.55*inch)
+    # ââ image(s) + description ââ
+    img_obj  = b64_to_image(item.get('img_b64', ''),  max_w=1.2*inch, max_h=1.2*inch)
+    img_obj2 = b64_to_image(item.get('img_b64_2', ''), max_w=1.2*inch, max_h=1.2*inch)
     desc_text = rich.get('description') or item.get('description') or ''
     desc_para = Paragraph(desc_text, style_body)
 
-    if img_obj:
+    if img_obj and img_obj2:
+        # Two photos side by side, description to the right
+        img_col_w = 1.3*inch
+        gap = 0.08*inch
+        desc_w = W - 1.5*inch - 2*img_col_w - 2*gap
         content_table = Table(
-            [[img_obj, desc_para]],
-            colWidths=[1.65*inch, W - 1.5*inch - 1.65*inch - 0.15*inch]
+            [[img_obj, img_obj2, desc_para]],
+            colWidths=[img_col_w, img_col_w, desc_w]
         )
         content_table.setStyle(TableStyle([
             ('VALIGN', (0,0), (-1,-1), 'TOP'),
-            ('LEFTPADDING', (0,0), (0,-1), 0),
-            ('RIGHTPADDING', (0,0), (0,-1), 8),
-            ('LEFTPADDING', (1,0), (1,-1), 4),
-            ('TOPPADDING', (0,0), (-1,-1), 0),
+            ('LEFTPADDING',   (0,0), (0,-1), 0),
+            ('RIGHTPADDING',  (0,0), (0,-1), int(gap)),
+            ('LEFTPADDING',   (1,0), (1,-1), 0),
+            ('RIGHTPADDING',  (1,0), (1,-1), int(gap)),
+            ('LEFTPADDING',   (2,0), (2,-1), 4),
+            ('TOPPADDING',    (0,0), (-1,-1), 0),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+        ]))
+        inner.append(content_table)
+    elif img_obj:
+        content_table = Table(
+            [[img_obj, desc_para]],
+            colWidths=[1.45*inch, W - 1.5*inch - 1.45*inch - 0.15*inch]
+        )
+        content_table.setStyle(TableStyle([
+            ('VALIGN', (0,0), (-1,-1), 'TOP'),
+            ('LEFTPADDING',   (0,0), (0,-1), 0),
+            ('RIGHTPADDING',  (0,0), (0,-1), 8),
+            ('LEFTPADDING',   (1,0), (1,-1), 4),
+            ('TOPPADDING',    (0,0), (-1,-1), 0),
             ('BOTTOMPADDING', (0,0), (-1,-1), 0),
         ]))
         inner.append(content_table)
     else:
         inner.append(desc_para)
 
-    # ── utility ──
+    # ââ utility ââ
     utility = rich.get('utility', '')
     if utility:
         util_hdr = ParagraphStyle('UH', parent=styles['Normal'],
             fontSize=8.5, fontName='Helvetica-Bold', textColor=sc, spaceBefore=3, spaceAfter=1)
-        inner.append(Paragraph("▶ Utility & Value", util_hdr))
+        inner.append(Paragraph("â¶ Utility & Value", util_hdr))
         inner.append(Paragraph(utility, style_utility))
 
-    # ── key facts ──
+    # ââ key facts ââ
     facts = rich.get('facts') or item.get('facts') or []
     if facts:
         inner.append(Paragraph("Key Facts", style_fact_header))
         inner.append(HRFlowable(width='100%', thickness=0.4,
             color=colors.HexColor('#bbbbbb'), spaceAfter=1))
         for f in facts:
-            inner.append(Paragraph(f"• {f}", style_fact))
+            inner.append(Paragraph(f"â¢ {f}", style_fact))
 
     # Light separator between items on the same page
     inner.append(Spacer(1, 0.08*inch))
@@ -338,8 +364,8 @@ def make_item_block(item):
     return KeepTogether(inner)
 
 
-# ── assemble document ────────────────────────────────────────────────────────
-out_path = SCRATCHPAD / 'Missouri_Field_Guide_v3.pdf'
+# ââ assemble document ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+out_path = SCRATCHPAD / 'Missouri_Field_Guide_v5.pdf'
 doc = SimpleDocTemplate(
     str(out_path),
     pagesize=letter,
@@ -381,8 +407,9 @@ for item in non_fish_items:
 for item in fish_items:
     by_section['Fish'].append(item)
 
-# Sort fish alphabetically
-by_section['Fish'].sort(key=lambda x: x['name'].lower())
+# Sort all sections alphabetically
+for s in by_section:
+    by_section[s].sort(key=lambda x: x['name'].lower())
 
 for section_name, section_items in by_section.items():
     if not section_items:
@@ -391,7 +418,7 @@ for section_name, section_items in by_section.items():
     for item in section_items:
         story.append(make_item_block(item))
 
-print("Building PDF v3...")
+print("Building PDF v5...")
 doc.build(story)
 size_mb = out_path.stat().st_size / 1024 / 1024
-print(f"Done! {out_path} — {size_mb:.2f} MB")
+print(f"Done! {out_path} â {size_mb:.2f} MB")
