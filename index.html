@@ -584,6 +584,24 @@
 }
 #lb-close:hover { color: #fff; }
 img { cursor: zoom-in; }
+.dl-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 9px 20px;
+  background: var(--forest);
+  color: #f4ede0;
+  border-radius: 6px;
+  text-decoration: none;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+.dl-pdf-btn:hover { background: var(--forest-dim); color: #fff; }
 </style>
 <header class="guide-header">
 <p class="guide-eyebrow">Naturalist's Field Reference · Missouri</p>
@@ -597,6 +615,7 @@ img { cursor: zoom-in; }
 <span class="badge badge-deadly">☠ Deadly</span>
 <span class="badge badge-venomous">⚡ Venomous</span>
 </div>
+<a class="dl-pdf-btn" href="output/Missouri_Field_Guide.pdf" download="Missouri_Field_Guide.pdf">⬇ Download Field Guide (PDF)</a>
 </header>
 <div class="tabs-wrapper">
 <nav class="tabs" role="tablist">
